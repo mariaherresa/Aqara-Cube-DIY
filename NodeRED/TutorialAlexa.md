@@ -8,15 +8,13 @@ NOTA: Para hacer los pasos no es necesario tener un Alexa.
 - Una vez la app esté configurada, le damos a Más -> Skills y juegos.
 - Descargamos Spotify y Node-RED Smart Home Control y autorizamos el uso de ambas.
   
------------------------------------------------------------ HECHO ---------------------------------------------------------------
-
 ### Creamos los dispositivos a utilizar en Node-RED
 - Nos vamos al siguiente enlace: https://red.cb-net.co.uk/
 - Creamos una cuenta e iniciamos sesión.
 - En https://red.cb-net.co.uk/devices añadimos los dispositivos necesarios junto a su descripción y la habitación en la que están.
 - Estos dispositivos, una vez creados, deberían de aparecer en al app de Alexa, en el apartado de Dispositivos.
   
------------------------------------------------------------ HECHO ---------------------------------------------------------------
+---
 
 He creado los dispositivos del ejemplo: **sensor de temperatura** y **lámpara**.
 
@@ -31,12 +29,6 @@ He creado los dispositivos del ejemplo: **sensor de temperatura** y **lámpara**
 
 <p align="center">
 <img src="https://github.com/eromerol/Smart-Cube-ESP8266/assets/124197400/1d11f738-f66b-44ba-9ae5-afb4abee3725" weight=150 height=350>
-
-DATOS:
-  - **user: mariaherrresa**
-  - **password: Herresa9.hola**
-
------------------------------------------------------------ HECHO ---------------------------------------------------------------
 
 ---
 
@@ -58,6 +50,3 @@ Y creamos una función para interpretar las órdenes para el termostato:
 <img src="https://github.com/eromerol/Smart-Cube-ESP8266/assets/145780382/7682f6db-89b3-486a-894a-acfd57cab13b" weight=200 height=200>
 
 La función recoge el mensaje cuando la orden es de [ajustar la temperatura](https://docs.cb-net.co.uk/en/development/node-outputs.html) del termostato y transmite el payload. Como se indica, msg.payload = 1 significa incrementar en 1ºC la temperatura, y -1, disminuirla 1ºC.
-
-
-NOTA: HAY UNA ORDEN DE CAMBIAR DE CANAL
