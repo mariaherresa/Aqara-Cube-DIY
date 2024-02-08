@@ -1,4 +1,4 @@
-# Smart-Cube-ESP8266
+# Aqara Cube DIY
 
 <img align="right" src="https://github.com/eromerol/Smart-Cube-ESP8266/assets/145780382/e8e6ce38-860f-4390-ae92-3b58cca1ee03" weight=250 height=250>
 
