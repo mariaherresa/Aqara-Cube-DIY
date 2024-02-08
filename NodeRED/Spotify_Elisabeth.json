@@ -1,0 +1,796 @@
+[
+    {
+        "id": "b8ecdb87.30751",
+        "type": "tab",
+        "label": "Spotify",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "b76ecf04.fa7db",
+        "type": "spotify",
+        "z": "b8ecdb87.30751",
+        "name": "Get Track",
+        "auth": "4edfb362e9fe82b7",
+        "api": "getMyCurrentPlayingTrack",
+        "x": 300,
+        "y": 260,
+        "wires": [
+            [
+                "c54982b2.2c241"
+            ]
+        ]
+    },
+    {
+        "id": "fb7dce5a.6092b",
+        "type": "inject",
+        "z": "b8ecdb87.30751",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "5",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 130,
+        "y": 260,
+        "wires": [
+            [
+                "b76ecf04.fa7db"
+            ]
+        ]
+    },
+    {
+        "id": "c54982b2.2c241",
+        "type": "template",
+        "z": "b8ecdb87.30751",
+        "name": "",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "json",
+        "syntax": "mustache",
+        "template": "{\n    \"id\": \"{{payload.item.id}}\",\n    \"artist\": \"{{payload.item.artists.0.name}}\",\n    \"track\": \"{{payload.item.name}}\",\n    \"art_URL\": \"{{{payload.item.album.images.1.url}}}\"\n}",
+        "output": "str",
+        "x": 460,
+        "y": 260,
+        "wires": [
+            [
+                "3dd80220.0eb7b6"
+            ]
+        ]
+    },
+    {
+        "id": "9ff42980.cc6fa",
+        "type": "ui_template",
+        "z": "b8ecdb87.30751",
+        "group": "6a8a4ce5.eb40bc",
+        "name": "",
+        "order": 1,
+        "width": "6",
+        "height": "7",
+        "format": "<b><h3>{{msg.payload.track}}</h3></b>\n{{msg.payload.artist}}\n<br>\n<img src={{msg.payload.art_URL}}>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "x": 820,
+        "y": 220,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "3dd80220.0eb7b6",
+        "type": "json",
+        "z": "b8ecdb87.30751",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 590,
+        "y": 260,
+        "wires": [
+            [
+                "9ff42980.cc6fa",
+                "a6650540.40fff8",
+                "ef6de29e.32c1a8",
+                "3e902d4daf8edee4",
+                "99f7c6891db559ec"
+            ]
+        ]
+    },
+    {
+        "id": "b3f0f318.c1997",
+        "type": "ui_button",
+        "z": "b8ecdb87.30751",
+        "name": "Like",
+        "group": "6a8a4ce5.eb40bc",
+        "order": 7,
+        "width": "6",
+        "height": "2",
+        "passthru": false,
+        "label": "",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "icon": "favorite",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 110,
+        "y": 360,
+        "wires": [
+            [
+                "d73a53e7.856ed"
+            ]
+        ]
+    },
+    {
+        "id": "a6650540.40fff8",
+        "type": "mqtt out",
+        "z": "b8ecdb87.30751",
+        "name": "MQTT track",
+        "topic": "infind/GRUPO7/Spotify/song",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "733738945a4a76bc",
+        "x": 830,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "f8f048b4.509348",
+        "type": "spotify",
+        "z": "b8ecdb87.30751",
+        "name": "",
+        "auth": "4edfb362e9fe82b7",
+        "api": "addToMySavedTracks",
+        "x": 460,
+        "y": 360,
+        "wires": [
+            [
+                "e46959ea.17efd8"
+            ]
+        ]
+    },
+    {
+        "id": "d73a53e7.856ed",
+        "type": "function",
+        "z": "b8ecdb87.30751",
+        "name": "",
+        "func": "var track = flow.get(\"id\");\n\nmsg.params = [\n    [track]\n];\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 260,
+        "y": 360,
+        "wires": [
+            [
+                "f8f048b4.509348"
+            ]
+        ]
+    },
+    {
+        "id": "ff5cd93e.b26878",
+        "type": "ui_button",
+        "z": "b8ecdb87.30751",
+        "name": "Pause",
+        "group": "6a8a4ce5.eb40bc",
+        "order": 3,
+        "width": "2",
+        "height": "1",
+        "passthru": true,
+        "label": "",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "pause",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 430,
+        "y": 480,
+        "wires": [
+            [
+                "c8229433.ef1e28"
+            ]
+        ]
+    },
+    {
+        "id": "c8229433.ef1e28",
+        "type": "spotify",
+        "z": "b8ecdb87.30751",
+        "name": "",
+        "auth": "4edfb362e9fe82b7",
+        "api": "pause",
+        "x": 610,
+        "y": 480,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "a63d7808.6c7098",
+        "type": "ui_button",
+        "z": "b8ecdb87.30751",
+        "name": "Play",
+        "group": "6a8a4ce5.eb40bc",
+        "order": 2,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "play_arrow",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 430,
+        "y": 580,
+        "wires": [
+            [
+                "dfb45e3f.96e288"
+            ]
+        ]
+    },
+    {
+        "id": "dfb45e3f.96e288",
+        "type": "spotify",
+        "z": "b8ecdb87.30751",
+        "name": "",
+        "auth": "4edfb362e9fe82b7",
+        "api": "play",
+        "x": 610,
+        "y": 580,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "18472670.b57a7a",
+        "type": "ui_button",
+        "z": "b8ecdb87.30751",
+        "name": "Previous",
+        "group": "6a8a4ce5.eb40bc",
+        "order": 4,
+        "width": "1",
+        "height": "1",
+        "passthru": false,
+        "label": "",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "icon": "fast_rewind",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 440,
+        "y": 680,
+        "wires": [
+            [
+                "d91e7af0.80e808"
+            ]
+        ]
+    },
+    {
+        "id": "d91e7af0.80e808",
+        "type": "spotify",
+        "z": "b8ecdb87.30751",
+        "name": "",
+        "auth": "4edfb362e9fe82b7",
+        "api": "skipToPrevious",
+        "x": 640,
+        "y": 680,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "dd7df327.4ff0e",
+        "type": "ui_button",
+        "z": "b8ecdb87.30751",
+        "name": "Next",
+        "group": "6a8a4ce5.eb40bc",
+        "order": 5,
+        "width": "1",
+        "height": "1",
+        "passthru": false,
+        "label": "",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "icon": "fast_forward",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 430,
+        "y": 780,
+        "wires": [
+            [
+                "b6c2a702.5dd63"
+            ]
+        ]
+    },
+    {
+        "id": "b6c2a702.5dd63",
+        "type": "spotify",
+        "z": "b8ecdb87.30751",
+        "name": "",
+        "auth": "4edfb362e9fe82b7",
+        "api": "skipToNext",
+        "x": 630,
+        "y": 780,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ef6de29e.32c1a8",
+        "type": "change",
+        "z": "b8ecdb87.30751",
+        "name": "track",
+        "rules": [
+            {
+                "t": "set",
+                "p": "id",
+                "pt": "flow",
+                "to": "payload.id",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "track",
+                "pt": "flow",
+                "to": "payload.track",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "artist",
+                "pt": "flow",
+                "to": "payload.artist",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 810,
+        "y": 320,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "e46959ea.17efd8",
+        "type": "template",
+        "z": "b8ecdb87.30751",
+        "name": "Notification",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "Track {{flow.track}} by {{flow.artist}}\nadded.",
+        "output": "str",
+        "x": 650,
+        "y": 360,
+        "wires": [
+            [
+                "a257db26.c59b48"
+            ]
+        ]
+    },
+    {
+        "id": "a257db26.c59b48",
+        "type": "ui_toast",
+        "z": "b8ecdb87.30751",
+        "position": "top right",
+        "displayTime": "3",
+        "highlight": "",
+        "sendall": true,
+        "outputs": 0,
+        "ok": "OK",
+        "cancel": "",
+        "raw": false,
+        "topic": "",
+        "name": "",
+        "x": 850,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "1a914266816ddec5",
+        "type": "mqtt in",
+        "z": "b8ecdb87.30751",
+        "name": "MQTT pause",
+        "topic": "infind/GRUPO7/Spotify/pause",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "733738945a4a76bc",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 130,
+        "y": 480,
+        "wires": [
+            [
+                "983dbf342f2fbaf1",
+                "ff5cd93e.b26878"
+            ]
+        ]
+    },
+    {
+        "id": "02fdcb954032ca41",
+        "type": "mqtt in",
+        "z": "b8ecdb87.30751",
+        "name": "MQTT play",
+        "topic": "infind/GRUPO7/Spotify/play",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "733738945a4a76bc",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 120,
+        "y": 580,
+        "wires": [
+            [
+                "60f0fb9281d36023",
+                "a63d7808.6c7098"
+            ]
+        ]
+    },
+    {
+        "id": "0a4fcebdbf54852c",
+        "type": "mqtt in",
+        "z": "b8ecdb87.30751",
+        "name": "MQTT next",
+        "topic": "infind/GRUPO7/Spotify/next",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "733738945a4a76bc",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 120,
+        "y": 780,
+        "wires": [
+            [
+                "9dfc98d1b24d71cd",
+                "dd7df327.4ff0e"
+            ]
+        ]
+    },
+    {
+        "id": "f5cad4dbf0c5da40",
+        "type": "mqtt in",
+        "z": "b8ecdb87.30751",
+        "name": "MQTT previous",
+        "topic": "infind/GRUPO7/Spotify/previous",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "733738945a4a76bc",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 140,
+        "y": 680,
+        "wires": [
+            [
+                "5aefdd186d7b053b",
+                "18472670.b57a7a"
+            ]
+        ]
+    },
+    {
+        "id": "983dbf342f2fbaf1",
+        "type": "debug",
+        "z": "b8ecdb87.30751",
+        "name": "debug 21",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 440,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "60f0fb9281d36023",
+        "type": "debug",
+        "z": "b8ecdb87.30751",
+        "name": "debug 22",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 440,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "5aefdd186d7b053b",
+        "type": "debug",
+        "z": "b8ecdb87.30751",
+        "name": "debug 23",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 440,
+        "y": 620,
+        "wires": []
+    },
+    {
+        "id": "9dfc98d1b24d71cd",
+        "type": "debug",
+        "z": "b8ecdb87.30751",
+        "name": "debug 24",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 440,
+        "y": 720,
+        "wires": []
+    },
+    {
+        "id": "d19ed112f39b5b93",
+        "type": "debug",
+        "z": "b8ecdb87.30751",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 510,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "cfed30e3fb646108",
+        "type": "function",
+        "z": "b8ecdb87.30751",
+        "name": "mensaje bienvenida",
+        "func": "if(msg.payload.content.substring(0,1)!=\"/\")\n{\n msg.payload.content=\"Hola soy el bot de Elisabeth Romero. Puedo responderte a estos comandos:\\n/start\\n/track\";\n return msg;\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 540,
+        "y": 80,
+        "wires": [
+            [
+                "3e902d4daf8edee4"
+            ]
+        ]
+    },
+    {
+        "id": "5ca05412263bbaf0",
+        "type": "telegram receiver",
+        "z": "b8ecdb87.30751",
+        "name": "",
+        "bot": "1f33bd2091f1c0f0",
+        "saveDataDir": "",
+        "filterCommands": true,
+        "x": 150,
+        "y": 40,
+        "wires": [
+            [
+                "d19ed112f39b5b93",
+                "cfed30e3fb646108"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "3e902d4daf8edee4",
+        "type": "telegram sender",
+        "z": "b8ecdb87.30751",
+        "name": "",
+        "bot": "1f33bd2091f1c0f0",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 850,
+        "y": 80,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "75253caefe0dcd85",
+        "type": "telegram command",
+        "z": "b8ecdb87.30751",
+        "name": "",
+        "command": "/start",
+        "description": "",
+        "registercommand": false,
+        "language": "",
+        "scope": "default",
+        "bot": "1f33bd2091f1c0f0",
+        "strict": false,
+        "hasresponse": true,
+        "useregex": false,
+        "removeregexcommand": false,
+        "outputs": 2,
+        "x": 110,
+        "y": 100,
+        "wires": [
+            [
+                "cfed30e3fb646108"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "455540959f8789c5",
+        "type": "telegram command",
+        "z": "b8ecdb87.30751",
+        "name": "",
+        "command": "/track",
+        "description": "",
+        "registercommand": false,
+        "language": "",
+        "scope": "default",
+        "bot": "1f33bd2091f1c0f0",
+        "strict": false,
+        "hasresponse": true,
+        "useregex": false,
+        "removeregexcommand": false,
+        "outputs": 2,
+        "x": 110,
+        "y": 160,
+        "wires": [
+            [
+                "b76ecf04.fa7db"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "99f7c6891db559ec",
+        "type": "mongodb out",
+        "z": "b8ecdb87.30751",
+        "mongodb": "e79e57afbbe4bbb5",
+        "name": "",
+        "collection": "tracks",
+        "payonly": true,
+        "upsert": false,
+        "multi": false,
+        "operation": "store",
+        "x": 870,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "4edfb362e9fe82b7",
+        "type": "spotify-auth",
+        "name": "Spotify Elisabeth",
+        "scope": "ugc-image-upload\nuser-read-playback-state\nuser-modify-playback-state\nuser-read-currently-playing\napp-remote-control\nstreaming\nplaylist-read-collaborative\nplaylist-modify-private\nplaylist-modify-public"
+    },
+    {
+        "id": "6a8a4ce5.eb40bc",
+        "type": "ui_group",
+        "name": "Spotify",
+        "tab": "f97cb2ec.c9379",
+        "order": 4,
+        "disp": true,
+        "width": "6",
+        "collapse": false
+    },
+    {
+        "id": "733738945a4a76bc",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "iot.ac.uma.es",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "1f33bd2091f1c0f0",
+        "type": "telegram bot",
+        "botname": "elisabethgodfather_bot",
+        "usernames": "",
+        "chatids": "",
+        "baseapiurl": "",
+        "updatemode": "polling",
+        "pollinterval": "300",
+        "usesocks": false,
+        "sockshost": "",
+        "socksport": "6667",
+        "socksusername": "anonymous",
+        "sockspassword": "",
+        "bothost": "",
+        "botpath": "",
+        "localbotport": "8443",
+        "publicbotport": "8443",
+        "privatekey": "",
+        "certificate": "",
+        "useselfsignedcertificate": false,
+        "sslterminated": false,
+        "verboselogging": false
+    },
+    {
+        "id": "e79e57afbbe4bbb5",
+        "type": "mongodb",
+        "hostname": "iot.ac.uma.es",
+        "topology": "direct",
+        "connectOptions": "",
+        "port": "27017",
+        "db": "II7",
+        "name": ""
+    },
+    {
+        "id": "f97cb2ec.c9379",
+        "type": "ui_tab",
+        "name": "Home",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    }
+]
